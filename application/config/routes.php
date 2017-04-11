@@ -195,6 +195,7 @@ $route['user/add-project'] = 'backend/Project/addProject';
 $route['user/project-list'] = 'backend/Project/projectList';
 $route['user/edit-project/(:any)'] = 'backend/Project/editProject/$1';
 $route['user/connected-users/(:any)'] = 'backend/Project/connectedUsers/$1';
+$route['user/connected-projects'] = 'backend/Project/connectedProjects';
 $route['project-detail/(:any)'] = 'frontend/project/projectDetail/$1';
 $route['back-project'] = 'frontend/Project/backProject';
 $route['back-project/(:any)'] = 'frontend/Project/backProject/$1';

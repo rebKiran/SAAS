@@ -1,150 +1,181 @@
 <div class="c-layout-page">
-    <!-- BEGIN: LAYOUT/BREADCRUMBS/BREADCRUMBS-3 -->
-    <div class="c-layout-breadcrumbs-1 c-bgimage c-subtitle c-fonts-uppercase c-fonts-bold c-bg-img-center" >
-        <div class="container wrapper">
-            <div class="row cart-head">
-                <div class="container">
-                    <div class="row">
-                        <p></p>
-                    </div>
+    <div class="c-layout-breadcrumbs-1 c-bgimage c-subtitle c-fonts-uppercase c-fonts-bold c-bg-img-center" style="background-image: url(<?php echo frontend_asset_url()?>assets/base/img/content/backgrounds/cart-bg.jpg)">
+  <div class="container">
+   <div class="c-page-title c-pull-left">
+    <h3 class="c-font-uppercase c-font-bold c-font-white c-font-20 c-font-slim">Checkout</h3>
+   </div>
+  </div>
+ </div>
 
-                    <div class="row">
-                        <p></p>
-                    </div>
-                </div>
-            </div>    
-            <div class="row cart-body">
-                <form class="form-horizontal" method="post" action="<?php echo base_url() ?>frontend/Cart/placeOrder">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-push-6 col-sm-push-6">
-                        <!--REVIEW ORDER-->
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                Review Order <div class="pull-right"></div>
-                            </div>
-                            <div class="panel-body">
-                                <?php
-                                $total = 0;
-                                if(!empty($cart_data)){
-                                foreach ($cart_data as $cart) {
-                                    $price = $cart['price'] * $cart['qty'];
-                                    $total = $price + $total;
-                                    ?>
-                                    <div class="form-group">
-                                        <div class="col-sm-3 col-xs-3">
-                                            <img class="img-responsive" width="60" src="<?php echo $cart['options']['product_img'] ?>" />
-                                        </div>
-                                        <div class="col-sm-6 col-xs-6">
-                                            <div class="col-xs-12"><?php echo $cart['name'] ?></div>
-                                        </div>
-                                        <div class="col-sm-3 col-xs-3 text-right">
-                                            <h3><span>$</span><?php echo $price ?></h3>
-                                        </div>
-                                    </div>
-                                <?php } } else { echo "<b>Your cart is empty</b>";}?>
-                                <div class="form-group"><hr /></div>
-                                <div class="form-group">
-                                    <div class="col-xs-12">
-                                        <strong>Order Total</strong>
-                                        <div class="pull-right"><span>$</span><span><?php echo $total; ?></span></div>
+    <!-- BEGIN: PAGE CONTENT -->
+    <div class="c-content-box c-size-lg">
+        <div class="container">
+            <form class="c-shop-form-1" method="post" action="<?php echo base_url() ?>frontend/Cart/placeOrder">
+                <div class="row">
+                    <!-- BEGIN: ADDRESS FORM -->
+                    <div class="col-md-7 c-padding-20">
+                        <!-- BEGIN: BILLING ADDRESS -->
+                        <h3 class="c-font-bold c-font-uppercase c-font-24">Billing Address</h3>
+
+                        <div class="c-shipping-address">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label class="control-label">First Name</label>
+                                            <input type="text" required='required' class="form-control c-square c-theme" name='first_name' placeholder="First Name"> </div>
+                                        <div class="col-md-6">
+                                            <label class="control-label">Last Name</label>
+                                            <input type="text" required='required' class="form-control c-square c-theme" name='last_name' placeholder="Last Name"> </div>
                                     </div>
                                 </div>
-                                <div class="form-group"><hr /></div>
-                                <div class="form-group pull-right">
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">Address</label>
+                                    <input type="text" required='required' name='address' class="form-control c-square c-theme" placeholder="Street Address"> </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">State</label>
+                                    <select id="state_dropdown" required='required' onchange="selectCity(this.options[this.selectedIndex].value)" class="form-control" name="state">
+                                        <option value="">Select State</option>
+                                        <?php foreach ($list as $state) { ?>
+                                            <option value="<?php echo $state['id'] ?>"><?php echo $state['name'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">Town / City</label>
+                                    <select  name="city" class="form-control" id="city_dropdown">
+                                        <option value="">Select City</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">Zipcode</label>
+                                    <input type="text" required='required' name='zipcode' class="form-control c-square c-theme" placeholder="Zipcode">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="control-label">Phone</label>
+                                            <input type="tel" required='required' name='phone' class="form-control c-square c-theme" placeholder="Phone">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="control-label">Email Address</label>
+                                            <input type="email" required='required' name='email' class="form-control c-square c-theme" placeholder="Email Address">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- END: ADDRESS FORM -->
+                    <!-- BEGIN: ORDER FORM -->
+                    <div class="col-md-5">
+                        <div class="c-content-bar-1 c-align-left c-bordered c-theme-border c-shadow">
+                            <h1 class="c-font-bold c-font-uppercase c-font-24">Your Order</h1>
+                            <ul class="c-order list-unstyled">
+                                <li class="row c-margin-b-15">
+                                    <div class="col-md-6 c-font-20">
+                                        <h2>Product</h2>
+                                    </div>
+                                    <div class="col-md-6 c-font-20">
+                                        <h2>Total</h2>
+                                    </div>
+                                </li>
+                                <li class="row c-border-bottom"></li>
+                                <?php
+                                $total = 0;
+                                if (!empty($cart_data)) {
+                                    foreach ($cart_data as $cart) {
+                                        $price = $cart['price'] * $cart['qty'];
+                                        $total = $price + $total;
+                                        ?>
+                                        <li class="row c-margin-b-15 c-margin-t-15">
+                                            <div class="col-md-6 c-font-20">
+                                                <a href="javascript:;" class="c-theme-link"><?php echo $cart['name'] ?></a>
+                                            </div>
+                                            <div class="col-md-6 c-font-20">
+                                                <p class="">$<?php echo $price; ?></p>
+                                            </div>
+                                        </li>
+                                        <?php
+                                    }
+                                } else {
+                                    echo "<b>Your cart is empty</b>";
+                                }
+                                ?>
+
+                                <li class="row c-border-top c-margin-b-15"></li>
+
+                                <li class="row c-margin-b-15 c-margin-t-15">
+                                    <div class="col-md-6 c-font-20">
+                                        <p class="c-font-30">Total</p>
+                                    </div>
+                                    <div class="col-md-6 c-font-20">
+                                        <p class="c-font-bold c-font-30">$
+                                            <span class="c-shipping-total"><?php echo $total; ?></span>
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="row">
+                                    <div class="col-md-12">
+                                        <div class="c-radio-list">
+                                            <div class="c-radio">
+                                                <label for="radio3" class="c-font-bold c-font-20">
+<!--                                                    <span class="inc"></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span> Paypal </label>-->
+                                                <img class="img-responsive" width="250" src="https://www.paypalobjects.com/webstatic/mktg/Logo/AM_mc_vs_ms_ae_UK.png" /> </div>
+                                        </div>
+                                    </div>
+                                </li>
+<!--                                <li class="row c-margin-b-15 c-margin-t-15">
+                                    <div class="form-group col-md-12">
+                                        <div class="c-checkbox">
+                                            <input type="checkbox" required='required' id="checkbox1-11" class="c-check">
+                                            <label for="checkbox1-11">
+                                                <span class="inc"></span>
+                                                <span class="check"></span>
+                                                <span class="box"></span> I've read and accept the Terms & Conditions </label>
+                                        </div>
+                                    </div>
+                                </li>-->
+                                <li class="row">
+                                    <div class="form-group col-md-12" role="group">
+                                        <!--                                                <button type="submit" class="btn btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold">Submit</button>
+                                                                                        <button type="submit" class="btn btn-lg btn-default c-btn-square c-btn-uppercase c-btn-bold">Cancel</button>-->
+
                                         <?php
                                         if ($this->session->userdata('user_account') == "") {
-                                            echo '<button type="button" data-toggle="modal" data-target="#checkout-signup-form" class="btn btn-primary btn-submit-fix">Place Order</button>';
+                                            echo '<button type="button" data-toggle="modal" data-target="#checkout-signup-form" class="btn btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold">Place Order</button>';
                                         } else if (empty($this->cart->contents())) {
-                                            echo '<a href="'.base_url().'research-page" class="btn btn-primary btn-submit-fix">Continue Shopping</a>';
+                                            echo '<a href="' . base_url() . 'research-page" class="btn btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold">Continue Shopping</a>';
                                         } else {
-                                            echo '<button type="submit" class="btn btn-primary btn-submit-fix">Place Order</button>';
+                                            echo '<button type="submit" class="btn btn-lg c-theme-btn c-btn-square c-btn-uppercase c-btn-bold">Place Order</button>';
                                         }
                                         ?>
                                     </div>
-                                </div>
-                            </div>
+                                </li>
+                            </ul>
                         </div>
-                        <!--REVIEW ORDER END-->
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-pull-6 col-sm-pull-6">
-                        <!--SHIPPING METHOD-->
-                        <div class="panel panel-info">
-                            <div class="panel-heading">Address</div>
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <h4>Shipping Address</h4>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-6 col-xs-12">
-                                        <strong>First Name:</strong>
-                                        <input type="text" name="first_name" class="form-control" value="" />
-                                    </div>
-                                    <div class="span1"></div>
-                                    <div class="col-md-6 col-xs-12">
-                                        <strong>Last Name:</strong>
-                                        <input type="text" name="last_name" class="form-control" value="" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12"><strong>Address:</strong></div>
-                                    <div class="col-md-12">
-                                        <input type="text" name="address" class="form-control" value="" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12"><strong>State:</strong></div>
-                                    <div class="col-md-12">
-                                        <select id="state_dropdown" onchange="selectCity(this.options[this.selectedIndex].value)" class="form-control" name="state">
-                                            <option value="">Select State</option>
-                                            <?php foreach ($list as $state) { ?>
-                                                <option value="<?php echo $state['id'] ?>"><?php echo $state['name'] ?></option>
-<?php } ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12"><strong>City:</strong></div>
-                                    <div class="col-md-12">
-                                        <select required="required" name="city" class="form-control" id="city_dropdown">
-                                            <option value="">Select City</option>
-                                        </select>
-                                    </div>
-                                </div>                            
-                                <div class="form-group">
-                                    <div class="col-md-12"><strong>Zip / Postal Code:</strong></div>
-                                    <div class="col-md-12">
-                                        <input type="text" name="zipcode" class="form-control" value="" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12"><strong>Phone Number:</strong></div>
-                                    <div class="col-md-12"><input type="text" name="phone" class="form-control" value="" /></div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12"><strong>Email Address:</strong></div>
-                                    <div class="col-md-12"><input type="text" name="email" class="form-control" value="" /></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--SHIPPING METHOD END-->
-
-                        <!--CREDIT CART PAYMENT END-->
-                    </div>
-
-                </form>
-            </div>
-            <div class="row cart-footer">
-
-            </div>
+                    <!-- END: ORDER FORM -->
+                </div>
+            </form>
         </div>
     </div>
-    <!-- END: LAYOUT/BREADCRUMBS/BREADCRUMBS-3 -->
-    <!-- BEGIN: CONTENT/SHOPS/SHOP-PRODUCT-DETAILS-2 -->
-
-    <!-- END: CONTENT/SHOPS/SHOP-PRODUCT-DETAILS-2 -->
-    <!-- BEGIN: CONTENT/SHOPS/SHOP-PRODUCT-TAB-1 -->
+    <!-- END: PAGE CONTENT -->
 
     <!-- END: CONTENT/SHOPS/SHOP-PRODUCT-TAB-1 -->
     <!-- BEGIN: CONTENT/USER/FORGET-PASSWORD-FORM -->

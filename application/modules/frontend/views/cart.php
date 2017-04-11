@@ -1,82 +1,99 @@
+<!-- END: LAYOUT/BREADCRUMBS/BREADCRUMBS-3 -->
+<!-- BEGIN: CONTENT/SHOPS/SHOP-PRODUCT-DETAILS-2 -->
 <div class="c-layout-page">
-    <!-- BEGIN: LAYOUT/BREADCRUMBS/BREADCRUMBS-3 -->
-    <div class="c-layout-breadcrumbs-1 c-bgimage c-subtitle c-fonts-uppercase c-fonts-bold c-bg-img-center" >
-        <div class="container">
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<div class="panel-title">
-						<div class="row">
-							<div class="col-xs-6">
-								<h5><span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</h5>
-							</div>
-							<div class="col-xs-6">
-								<button type="button" class="btn btn-primary btn-sm btn-block">
-									<span class="glyphicon glyphicon-share-alt"></span> <a href="<?php echo base_url()?>research-page">Continue shopping </a>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="panel-body">
-                                   <?php
-                                   
-                            if (!empty($cart_data)) {
-                                $total = 0;
-                                foreach ($cart_data as $cart) {
-                                    $price = $cart['price'] * $cart['qty'];
-                                    $total = $price + $total;
-                                    ?>
-					<div class="row">
-						<div class="col-xs-2"><img class="img-responsive" width="100" src="<?php echo $cart['options']['product_img']?>">
-						</div>
-						<div class="col-xs-4">
-							<h4 class="product-name"><strong><?php echo $cart['name']?></strong></h4><h4><small><?php echo $cart['options']['product_desc']?></small></h4>
-						</div>
-						<div class="col-xs-6">
-							<div class="col-xs-6 text-right">
-								<h3><strong>$<?php echo $price ?> <span class="text-muted"></span></strong></h3>
-							</div>
-							<div class="col-xs-2">
-								<button type="button" onclick='removeItem("<?php echo $cart["rowid"];?>")' class="btn btn-link btn-xs">
-									<span class="glyphicon glyphicon-trash"> </span>
-								</button>
-							</div>
-						</div>
-					</div>
-					
-					<hr>
-                            <?php } } else {
-                                echo "<tr><td colspan=4><h4>Your cart is empty</h4></td></tr>";
-                            }
-                            ?>
-				</div>
-				<div class="panel-footer">
-					<div class="row text-center">
-						<div class="col-xs-9">
-							<h4 class="text-right">Total <strong>$<?php echo $this->cart->total()?></strong></h4>
-						</div>
-						<div class="col-xs-3">
-							<a href="<?php echo base_url()?>cart/checkout" class="btn c-theme-btn c-btn-square c-btn-uppercase c-btn-bold">
-								Checkout
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-    </div>
-    <!-- END: LAYOUT/BREADCRUMBS/BREADCRUMBS-3 -->
-    <!-- BEGIN: CONTENT/SHOPS/SHOP-PRODUCT-DETAILS-2 -->
-    
-    <!-- END: CONTENT/SHOPS/SHOP-PRODUCT-DETAILS-2 -->
-    <!-- BEGIN: CONTENT/SHOPS/SHOP-PRODUCT-TAB-1 -->
-    
-    <!-- END: CONTENT/SHOPS/SHOP-PRODUCT-TAB-1 -->
+<div class="c-layout-breadcrumbs-1 c-bgimage c-subtitle c-fonts-uppercase c-fonts-bold c-bg-img-center" style="background-image: url(<?php echo frontend_asset_url()?>assets/base/img/content/backgrounds/cart-bg.jpg)">
+  <div class="container">
+   <div class="c-page-title c-pull-left">
+    <h3 class="c-font-uppercase c-font-bold c-font-white c-font-20 c-font-slim">My Cart</h3>
+   </div>
+  </div>
+ </div>
+<!-- END: CONTENT/SHOPS/SHOP-PRODUCT-DETAILS-2 -->
+<!-- BEGIN: CONTENT/SHOPS/SHOP-CART-1 -->
+<div class="c-content-box c-size-lg">
+    <div class="container">
+        <span id="successmsg"></span>
+        <div class="c-shop-cart-page-1">
+           
+            <!-- BEGIN: SHOPPING CART ITEM ROW -->
 
-    <!-- END: PAGE CONTENT -->
-    <!-- END: PAGE CONTENT -->
+            <!-- END: SHOPPING CART ITEM ROW -->
+            <!-- BEGIN: SHOPPING CART ITEM ROW -->
+            <?php
+            if (!empty($cart_data)) {
+                $total = 0;
+                foreach ($cart_data as $cart) {
+                    $price = $cart['price'] * $cart['qty'];
+                    $total = $price + $total;
+                    ?>
+                    <div class="row c-cart-table-row">
+                        <h2 class="c-font-uppercase c-font-bold c-theme-bg c-font-white c-cart-item-title">Item 2</h2>
+                        <div class="col-md-2 col-sm-3 col-xs-5 c-cart-image">
+                            <img src="<?php echo $cart['options']['product_img'] ?>" /> </div>
+                        <div class="col-md-6 col-sm-9 col-xs-7 c-cart-desc">
+                            <h3>
+                                <a href="javascript:;" class="c-font-bold c-theme-link c-font-22 c-font-dark"><?php echo $cart['name'] ?></a>
+                            </h3>
+                            <p><?php echo $cart['options']['product_desc'] ?>
+                            </p>
+                        </div>
+
+                        <div class="col-md-2 col-sm-3 col-xs-6 c-cart-price">
+                            <p class="c-cart-sub-title c-theme-font c-font-uppercase c-font-bold">Unit Price</p>
+                            <p class="c-cart-price c-font-bold">$<?php echo $price ?></p>
+                        </div>
+                        <div class="col-md-1 col-sm-3 col-xs-6 c-cart-total">
+<!--                            <p class="c-cart-sub-title c-theme-font c-font-uppercase c-font-bold">Total</p>
+                            <p class="c-cart-price c-font-bold">$<?php echo $this->cart->total() ?></p>-->
+                        </div>
+                        <div class="col-md-1 col-sm-12 c-cart-remove">
+                            <a href="javascript:;" onclick='removeItem("<?php echo $cart["rowid"]; ?>")' class="btn c-btn btn-xs c-theme-btn c-btn-square c-font-white c-font-bold c-font-uppercase c-cart-float-r">Remove</a>
+                            <a href="javascript:;"  class="c-cart-remove-mobile btn c-btn c-btn-md c-btn-square c-btn-red c-btn-border-1x c-font-uppercase">Remove item from Cart</a>
+                        </div>
+                    </div>
+                    <?php
+                }
+            } else {
+                echo "<tr><td colspan=4><h4>Your cart is empty</h4></td></tr>";
+            }
+            ?>
+            <!-- END: SHOPPING CART ITEM ROW -->
+            <!-- BEGIN: SUBTOTAL ITEM ROW -->
+<!--            <div class="row">
+                <div class="c-cart-subtotal-row c-margin-t-20">
+                    <div class="col-md-2 col-md-offset-9 col-sm-6 col-xs-6 c-cart-subtotal-border">
+                        <h3 class="c-font-uppercase c-font-bold c-right c-font-16 c-font-grey-2">Subtotal</h3>
+                    </div>
+                    <div class="col-md-1 col-sm-6 col-xs-6 c-cart-subtotal-border">
+                        <h3 class="c-font-bold c-font-16">$<?php echo $this->cart->total() ?></h3>
+                    </div>
+                </div>
+            </div>-->
+            <!-- END: SUBTOTAL ITEM ROW -->
+            <!-- BEGIN: SUBTOTAL ITEM ROW -->
+           
+            <!-- END: SUBTOTAL ITEM ROW -->
+            <!-- BEGIN: SUBTOTAL ITEM ROW -->
+            <div class="row">
+                <div class="c-cart-subtotal-row">
+                    <div class="col-md-2 col-md-offset-9 col-sm-6 col-xs-6 c-cart-subtotal-border">
+                        <h3 class="c-font-uppercase c-font-bold c-right c-font-16 c-font-grey-2">Grand Total</h3>
+                    </div>
+                    <div class="col-md-1 col-sm-6 col-xs-6 c-cart-subtotal-border">
+                        <h3 class="c-font-bold c-font-16">$<?php echo $this->cart->total() ?></h3>
+                    </div>
+                </div>
+            </div>
+            <!-- END: SUBTOTAL ITEM ROW -->
+            <div class="c-cart-buttons">
+                <a href="<?php echo base_url() ?>research-page" class="btn c-btn btn-lg c-btn-red c-btn-square c-font-white c-font-bold c-font-uppercase c-cart-float-l">Continue Shopping</a>
+                <a href="<?php echo base_url() ?>cart/checkout" class="btn c-btn btn-lg c-theme-btn c-btn-square c-font-white c-font-bold c-font-uppercase c-cart-float-r">Checkout</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: CONTENT/SHOPS/SHOP-CART-1 -->
+
+<!-- END: PAGE CONTENT -->
+<!-- END: PAGE CONTENT -->
 </div>

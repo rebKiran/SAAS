@@ -46,20 +46,25 @@ $().ready(function () {
         });
     });
 	
-	$(".add_to_cart").click(function () {
+	$(".add_to_cart").click(function (e) {
 		var btn_val = $(this).text();
 		
 		if('Donate' == btn_val ) { 
-			/*if('undefined' == $("input[name='radios1']:checked").val() ) {
-				return false;
-			}*/	
-			
+						
 			var price = $(this).parent("div").parent("div").find("input").val();
-			if('' == price){
-				alert('Please enter amount');
+				
+			if( '' == price ) {
+				$(this).parent("div").parent("div").find("input").css('border-color','red');
+				//$(this).parent("div").parent("div").find("input").val('');
 				return false;
 			}
+			var valid = /^\d{0,4}(\.\d{0,2})?$/.test(price);
 			
+			if( false == valid ) { 
+				$(this).parent("div").parent("div").find("input").css('border-color','red');
+				//$(this).parent("div").parent("div").find("input").val('');
+				return false;
+			}	
 		}
         if ($('#qty').val() === '' || $('#qty').val() === '0') {
             $('#qty').css({"border-color": "red"});
@@ -67,11 +72,12 @@ $().ready(function () {
             return false;
         }
 		
-        if ($('#size').val() === '' || $('#size').val() === '0') {
+       /* if ($('#size').val() === '' || $('#size').val() === '0') {
             $('#size').css({"border-color": "red"});
             $('#size').focus();
             return false;
-        }
+        }*/
+		
 		var name = $('#name').val();
 		name = name.trim();
         $.ajax({

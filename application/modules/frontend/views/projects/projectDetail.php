@@ -1,4 +1,4 @@
-
+<?php $session = $this->session->userdata('user_account'); $this->load->model('Project_model') ?>
 
 <div class="c-layout-page">
     <!-- BEGIN: LAYOUT/BREADCRUMBS/BREADCRUMBS-3 -->
@@ -52,18 +52,54 @@
                             </div-->
 
                             <div class="clear"></div>
-                            <div class="c-product-price" style="margin-bottom: 0px;">$<?php if(is_object($project_details)) { echo $project_details->total; } else { echo ' 0.00'; } ?></div>
-                            <div class="c-product-short-desc"> pledged of $<?php if(is_object($project_details)) {  echo $project_details->total; } ?> goal </div>
+                            <div class="c-product-price" style="margin-bottom: 0px;">$<?php
+                                if (is_object($project_details)) {
+                                    echo $project_details->total;
+                                } else {
+                                    echo ' 0.00';
+                                }
+                                ?></div>
+                            <div class="c-product-short-desc"> pledged of $<?php
+                                if (is_object($project_details)) {
+                                    echo $project_details->total;
+                                }
+                                ?> goal </div>
 
-                            <div class="c-product-price" style="margin-bottom: 0px;"><?php if(is_object($project_details)) {  echo $project_details->cnt_records; } else { echo ' 0'; } ?></div>
+                            <div class="c-product-price" style="margin-bottom: 0px;"><?php
+                                if (is_object($project_details)) {
+                                    echo $project_details->cnt_records;
+                                } else {
+                                    echo ' 0';
+                                }
+                                ?></div>
                             <div class="c-product-short-desc"> backers </div>
 
                             <div class="c-product-add-cart c-margin-t-20">
                                 <div class="row">
 
                                     <div class="col-sm-12 col-xs-12 c-margin-t-20">
-                                        <a href="<?php echo base_url(); ?>back-project/<?php echo $project->project_id; ?>" class="btn col-sm-5 c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase">Back this project</a>
-                                        <a id="connect" onclick="connectToProject(<?php echo $project->project_id; ?>)" class="btn c-btn  col-sm-5 btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase">Connect</a>
+                                        <span id='err1'></span>
+                                        <?php
+                                        //echo $data->project_id;
+                                        $is_connected = $this->Project_model->isConnected($project->project_id, $project->user_id);
+                                       //echo "ds".$is_connected;
+                                        if ($session == "") {
+                                            ?>
+
+                                            <a href="javascript:;" onclick="err();" class="btn col-sm-5 c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase">Back this project</a>
+                                            <a href="javascript:;" onclick="err();"  class="btn c-btn  col-sm-5 btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase">Connect</a>
+                                        <?php } else {
+                                            ?>
+                                            <a href="<?php echo base_url(); ?>back-project/<?php echo $project->project_id; ?>" class="btn col-sm-5 c-btn btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase">Back this project</a>
+                                            <?php
+                                            if ($is_connected == 'true') {
+                                                echo '<a class="btn c-btn  col-sm-5 btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase"><i class="fa fa-check"></i> Connected</a>';
+                                            } else {
+                                                echo '<a id="connect" onclick="connectToProject(' . $project->project_id . ')" class="btn c-btn  col-sm-5 btn-lg c-font-bold c-font-white c-theme-btn c-btn-square c-font-uppercase">Connect</a>';
+                                            }
+                                            ?> 
+
+                                        <?php } ?>
                                     </div>
                                     <div class="clear" style="margin: 17px;"></div>
                                     <!--div class="col-sm-6 col-xs-12">
@@ -118,7 +154,7 @@
                                     ?>
                                     <div>
                                         <div class="bloc-section bloc-section<?php echo $i; ?>">
-    <?php echo $offer->offers; ?>
+                                            <?php echo $offer->offers; ?>
                                             <div class="form-group">
 
                                             </div>
@@ -129,10 +165,10 @@
 
                                     </div>
 
-    <?php
-    $i++;
-}
-?>
+                                    <?php
+                                    $i++;
+                                }
+                                ?>
 
 
 
@@ -165,7 +201,7 @@
         $.ajax({
             url: base_url + 'frontend/project/connectToProject',
             type: 'POST',
-            data: {id : projectid},
+            data: {id: projectid},
             dataType: 'json',
             success: function (response) {
                 //alert(response.msg);
@@ -173,11 +209,14 @@
                     $("#connect").html("Connected <i class='fa fa-check'></i>");
                     return true;
                 } else {
+                    $("#err1").html("<p style='color:red'>" + response.msg + "</p>");
                     return false;
                 }
             }
         });
     }
-    
+    function err() {
+        $("#err1").html("<p style='color:red'>Please login to continue.</p>");
+    }
 
 </script>

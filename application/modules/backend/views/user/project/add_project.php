@@ -138,7 +138,30 @@
                             </div>
                         </div>
                         
-					
+						<div class="input_fields_wrap">
+						   
+						  <div id="1">
+							<div class="item form-group">
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Price <span class="required">*</span>
+								</label>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<input type="text" class="form-control col-md-7 col-xs-12" name="price[]" required="required"  id="price1">
+								</div>
+							</div>
+							
+							 <div class="item form-group">
+								<label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Price Offer <span class="required">*</span>
+								</label>
+							   <div class="col-md-6 col-sm-6 col-xs-12">
+									<textarea name="offers[]" cols="12" rows="10" required="required"  class="form-control" id="short_description"> </textarea>
+									</br>
+								</div>
+								<a href="javascript:;" class="add_field_button" class="remove_field">Add More</a>
+							</div>
+							
+							</div>
+							
+						</div>	
 
 
                         <div class="ln_solid"></div>
@@ -155,7 +178,10 @@
 				</div>
             </div>
         </div>
-    </div>
+		
+	
+
+   </div>
     <!-- end of weather widget -->
   </div>
   
@@ -219,32 +245,63 @@ function isNumberKey(evt)
 
 
 <script type="text/javascript">
+var dy_x = 0;
+
+if(dy_x==0)
+{
+	var x = 1; //initlal text box count
+}
+else
+{
+    var x = dy_x; //initlal text box count
+}
+
+ 
 $(document).ready(function() {
     var max_fields      = 10; //maximum input boxes allowed
     var wrapper         = $(".input_fields_wrap"); //Fields wrapper
     var add_button      = $(".add_field_button"); //Add button ID
 
-    var x = 1; //initlal text box count
+   
     $(add_button).click(function(e){ //on add input button click
 	
 	  e.preventDefault();
         if(x < max_fields){ //max input box allowed
             x++; //text box increment
-            $(wrapper).append(' <div><div class="item form-group">' +
-                '<label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Project Title <span class="required">*</span></label>' +
+            $(wrapper).append(' <div id="'+x+'"><div class="item form-group">' +
+                '<label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Price <span class="required">*</span></label>' +
                 '<div class="col-md-6 col-sm-6 col-xs-12">' +
-                '<input type="text" class="form-control col-md-7 col-xs-12" name="project_title"  required="required"  id="project_title">' +
+                '<input type="text" class="form-control col-md-7 col-xs-12" name="price[]"  required="required"  id="price'+x+'">' +
                 '</div>' +
-                '<a href="#" class="remove_field">Remove</a>' +
+                '<a href="javascript:;" class="remove_field" onclick="removeDiv('+x+')">Remove</a>' +
             '</div>'+
 			'<div class="clear"></div>'+
+			'<div class="item form-group">'+
+			'<label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Price Offer <span class="required">*</span></label>'+
+			'<div class="col-md-6 col-sm-6 col-xs-12">'+
+			'<textarea name="offers[]" cols="12" rows="10" required="required"  class="form-control" id="short_description'+x+'"> </textarea>'+
+			'</br></div>'+
+			'</div>'+
 			'</br></div>');
     }
     });
-
+   
+   /*
     $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-        e.preventDefault(); $(this).parent('div').remove(); x--;
+        e.preventDefault(); 
+		$("#"+x).remove();
+		x--;
     })
+	
+	*/
+	
+	
 });
-</script>	
+
+    function removeDiv(div)
+	{
+		$("#"+div).remove();
+		x--;
+	}
+</script>
 <!-- /page content -->

@@ -74,7 +74,7 @@
                                                     ?>
                                                     <tr>
                                                         <td><?php echo $i; ?></td>
-                                                        <td><?php echo $connected_users['username']; ?></td>
+                                                        <td><?php echo $connected_users['username'] . "<br>(".$connected_users['email'].")" ; ?></td>
                                                         <td><?php echo date('d F Y', strtotime($connected_users['created_time'])); ?></td>
                                                         <td>
                                                             <a title="Edit Project" href="javascript:;" onclick="showchatmodal(<?php echo $connected_users['id'], "," . $projectid ?>)" class="btn btn-info btn-xs" ><i class="fa fa-comment"></i> Chat</a>
@@ -126,6 +126,7 @@
 
                                                 Send</button>
                                             <input type="hidden" id="hiduserid">
+											<input type="hidden" id="hidprojectid" name="hidprojectid" value="<?php echo $projectid ?>">
                                         </span>
                                     </div>
                                 </div>
@@ -143,6 +144,14 @@
 </div>
 
 <script>
+
+$('#chatpopup').on('keydown', '#message', function (e) { 
+	if (e.keyCode == 13) {
+		var projectid = $('#hidprojectid').val();
+		sendmsg( projectid );
+		$(this).val('');
+	}
+});
     function showchatmodal(userid, projectid) {
         $('#chatpopup').modal('toggle');
         $('#hiduserid').val(userid);
@@ -186,7 +195,10 @@
                 //alert(data.data);
                 if (data.status === '1') {
                     $("#msgdata").html(data.data);
+                    $(".chat").append(data.lastinsert);
+					$("#message").val('');
                     return true;
+					
                 } else {
                     $("#testi_status").html('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">X</button><strong>' + data.msg + '</div>');
                     return false;

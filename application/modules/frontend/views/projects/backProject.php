@@ -13,18 +13,6 @@
 					
 					<div class="form-group no-margin">
 					   
-						<div class="col-md-1">
-							<div class="c-radio-list mt10">
-								<div class="c-radio">
-									<input type="radio" id="radio1-112" class="c-radio" name="radios1">
-									<label for="radio1-112">
-										<span></span>
-										<span class="check"></span>
-										<span class="box"></span></label>
-								</div>
-							   
-							</div>
-						</div>
 						
 					<div class="col-md-11">
 					<div class="col-md-6">
@@ -33,7 +21,7 @@
 					<div class="icon-addon addon-lg" >
 					<label for="email" class="fa fa-usd" rel="tooltip" title="email"></label>
 						<input type="text" placeholder="Amount" class="form-control" name="amount" id="amount1-112"  value="">
-						
+						<span></span>
 					</div>
 										<input type="hidden" id='price' value=''>
 										<input type="hidden" id='name' value='<?php echo $data->project_title; ?>'>
@@ -57,18 +45,7 @@
 					
                                         <div class="form-group no-margin">
                                            
-                                            <div class="col-md-1">
-                                                <div class="c-radio-list mt10">
-                                                    <div class="c-radio">
-                                                        <input type="radio" id="radio<?php echo $key+1;?>" class="c-radio" name="radios1">
-                                                        <label for="radio<?php echo $key+1;?>">
-                                                            <span></span>
-                                                            <span class="check"></span>
-                                                            <span class="box"></span></label>
-                                                    </div>
-                                                   
-                                                </div>
-                                            </div>
+                                           
 											
 										<div class="col-md-11">
 										<div class="col-md-6">
@@ -79,7 +56,7 @@
 										<div class="icon-addon addon-lg">
 										<label for="email" class="fa fa-usd" rel="tooltip" title="email"></label>
 											<input type="text" placeholder="Amount" name="amount" class="form-control" id="amount<?php echo $key+1;?>" value="<?php echo $value->price;?>">
-											
+											<span></span>
 										</div>
 											
 										<input type="hidden" id='price' value='<?php echo $value->price; ?>'>

@@ -165,15 +165,15 @@
 						<tr>
 
 							<td class="worktd" align="left"><?php echo $value['ord_det_item_name']; ?></td>
-							<td><?php echo $value['ord_det_price']; ?> </td>
+							<td><?php echo $global['currency_symbol'] . ' ' . $value['ord_det_price']; ?> </td>
 							<td class="worktd" align="left"><?php echo $value['ord_det_quantity']; ?></td>
-							<td><?php echo $value['ord_det_price_total']; ?></td>
+							<td><?php echo $global['currency_symbol'] . ' ' . $value['ord_det_price_total']; ?></td>
 
 						</tr>
 						<?php }  ?>
 						<tr>
 							<td colspan="3" style="text-align:center;font-weight:bold;color:000">Total Amount</td>
-							<td colspan="" style="font-weight:bold;color:000"><?php echo ( float ) $total;?></td>
+							<td colspan="" style="font-weight:bold;color:000"><?php echo $global['currency_symbol'] . ' ' . $total;?></td>
 						</tr>
 						<?php }  ?>	
                     </tbody>

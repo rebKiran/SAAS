@@ -26,7 +26,7 @@
             <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                    <li><a href="<?php echo base_url() ?>#"><i class="fa fa-home"></i> Dashboard </a>
+                    <li><a href="<?php echo base_url() ?>user/dashboard"><i class="fa fa-home"></i> Dashboard </a>
 
                     </li>
                     <li><a href="<?php echo base_url() ?>user/order-list"><i class="fa fa-globe"></i> My Purchase </a>
@@ -35,21 +35,24 @@
                     <li><a href="<?php echo base_url() ?>user/download-paper"><i class="fa fa-globe"></i> Download Research Papers</a>
 
                     </li>
-					
-					 <li>
+
+                    <li>
                         <a><i class="fa fa-table"></i> My Projects<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="<?php echo base_url() ?>user/add-project">Add New Project</a></li>
                             <li><a href="<?php echo base_url() ?>user/project-list">Project List</a></li>
+                            
                         </ul>
                     </li>
                     </li>
-					 <li><a href="<?php echo base_url() ?>user/donation-list"><i class="fa fa-globe"></i> Funded Projects </a>
+                   
+                    <li><a href="<?php echo base_url() ?>user/donation-list"><i class="fa fa-globe"></i> Funded Projects </a>
 
 
 
                     </li> 
-                    
+                    <li><a href="<?php echo base_url() ?>user/connected-projects"><i class="fa fa-folder"></i>Connected Projects</a></li>
+
                     <li>
                         <a><i class="fa fa-table"></i> Reports<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">

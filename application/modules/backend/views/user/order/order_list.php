@@ -126,7 +126,7 @@
                                         else
                                             echo 'Inactive';
                                         ?></td> -->
-										<td class="worktd"  align="left"><?php echo $post['ord_item_summary_total']; ?></td>
+										<td class="worktd"  align="left"><?php echo $global['currency_symbol'] . ' ' . $post['ord_item_summary_total']; ?></td>
                                    <td><a title="View Order Details" href="<?php echo base_url(); ?>user/order-detail/<?php echo $post['ord_order_number'];?>" class="btn btn-info" ><i class="fa fa-eye" aria-hidden="true"></i>
 
 									</td>

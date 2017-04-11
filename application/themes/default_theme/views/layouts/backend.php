@@ -37,6 +37,8 @@
 		
 		<!-- Dropzone.js -->
         <link href="<?php echo backend_asset_url() ?>vendors/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
+		   <!-- jQuery -->
+        <script src="<?php echo backend_asset_url() ?>vendors/jquery/dist/jquery.min.js"></script>
     </head>
 
     <body class="nav-md">
@@ -49,8 +51,7 @@
             </div>
         </div>
 
-        <!-- jQuery -->
-        <script src="<?php echo backend_asset_url() ?>vendors/jquery/dist/jquery.min.js"></script>
+     
         <!-- Bootstrap -->
         <script src="<?php echo backend_asset_url() ?>vendors/bootstrap/dist/js/bootstrap.min.js"></script>
         <!-- FastClick -->

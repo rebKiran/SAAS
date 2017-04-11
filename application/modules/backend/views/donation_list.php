@@ -1,4 +1,4 @@
-<?php $session = $this->session->userdata('user_account');?>
+<?php $session = $this->session->userdata('user_account'); ?>
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
@@ -61,13 +61,12 @@
 
                                         <tbody>
                                             <?php
-                                            
                                             foreach ($project_list as $key => $project) {
                                                 ?>
                                                 <tr>
                                                     <td><?php echo $project['project_title']; ?></td>
                                                     <td><?php echo '$ ' . $project['amount']; ?></td>
-                                                    <td><?php if(!empty($project['created_date'])) echo date('d F Y', strtotime($project['created_date'])); ?></td>
+                                                    <td><?php if (!empty($project['created_date'])) echo date('d F Y', strtotime($project['created_date'])); ?></td>
                                                     <td><?php
                                                         if (0 != $project['amount']) {
                                                             echo 'Funded';
@@ -76,7 +75,7 @@
                                                         }
                                                         ?></td>
                                                     <td><a title="View Details" href="<?php echo base_url(); ?>user/funding-details/<?php echo $project['project_id']; ?>" class="btn btn-info btn-xs" ><i class="fa fa-eye" aria-hidden="true"></i></a>
-<a title="Edit Project" href="javascript:;" onclick="showchatmodal(<?php echo $session['user_id'], "," . $project['project_id'] ?>)" class="btn btn-info btn-xs" ><i class="fa fa-comment"></i> Chat</a>
+                                                        <a title="Edit Project" href="javascript:;" onclick="showchatmodal(<?php echo $project['user_id'], "," . $project['project_id'] ?>)" class="btn btn-info btn-xs" ><i class="fa fa-comment"></i> Chat</a>
                                                     </td>
                                                 </tr>
                                                 <?php
@@ -169,7 +168,7 @@
     }
     function sendmsg() {
         var url = "<?php echo base_url() ?>backend/project/sendMsg"; // the script where you handle the form input.
-        
+
         if ($("#message").val() === '') {
             $("#message").css("border-color", "red");
             return false;
@@ -181,9 +180,10 @@
             dataType: 'json',
             success: function (data)
             {
-                //alert(data.data);
+                //alert(data.lastinsert);
                 if (data.status === '1') {
-                    $("#msgdata").html(data.data);
+                    $("#message").val("");
+                    $(".chat").append(data.lastinsert);
                     return true;
                 } else {
                     $("#testi_status").html('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">X</button><strong>' + data.msg + '</div>');

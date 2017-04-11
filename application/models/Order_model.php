@@ -27,6 +27,7 @@ class Order_Model extends CI_Model
   	    $this->db->group_by(array("os.ord_order_number"));
         $query = $this->db->get();
 		
+		
         return $query->result_array();
     }
 

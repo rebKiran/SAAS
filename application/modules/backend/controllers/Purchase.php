@@ -27,6 +27,7 @@ class Purchase extends CI_Controller {
 
     public function orderList() {
         $data['global'] = $this->common_model->getGlobalSettings();
+		
         $data = $this->common_model->commonFunction();
         $data['user_session'] = $this->session->userdata('user_account');
 		
@@ -34,6 +35,7 @@ class Purchase extends CI_Controller {
         $data['arr_product_data'] = $this->Order_model->getAllOrders($data['user_session']['user_id']);
 
         $this->template->set('page', 'orderlist');
+		$this->template->set('global', $data['global']);
         $this->template->set('arr_product_data', $data['arr_product_data']);
         $this->template->set('user_session', $data['user_session']);
         $this->template->set_theme('default_theme');

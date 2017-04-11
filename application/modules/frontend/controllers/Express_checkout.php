@@ -284,22 +284,45 @@ class Express_checkout extends CI_Controller {
                 "payer_zip" => $PayPalResult['SHIPTOZIP'],
                 "total_amount_paid" => $PayPalResult['AMT'],
                 "order_no" => $cart['shopping_cart']['form_data']['ord_order_number'],
+				"shipping_name" => $PayPalResult['SHIPTONAME'],
+				"shipping_street1" => $PayPalResult['SHIPTOSTREET'],
+				"shipping_street2" => $PayPalResult['SHIPTOSTREET2'],
+				"shipping_city" => $PayPalResult['SHIPTOCITY'],
+				"shipping_state" => $PayPalResult['SHIPTOSTATE'],
+				"shipping_zip" => $PayPalResult['SHIPTOZIP'],
+				"shipping_country_code" => $PayPalResult['SHIPTOCOUNTRYCODE'],
+				"shipping_phone" => $PayPalResult['SHIPTOPHONENUM'],
+				"shipping_country" => $PayPalResult['SHIPTOCOUNTRYNAME'],
+				"currency" => $PayPalResult['CURRENCYCODE']
             );
 			$result = $this->common_model->getRecords( TABLES::$PAYMENT, array('token'), array('token' => $PayPalResult['TOKEN']) );
 			
-			
-			 
 			if( empty( $result ) ){
-				 $data['user_session'] = $this->session->userdata('user_account');
 				
-				if(!empty($this->session->userdata('project_id'))) {
-					$data = array('project_id' => $this->session->userdata('project_id'),
-								  'user_id' => $data['user_session']['user_id'],
-								  'order_number' => $cart['shopping_cart']['form_data']['ord_order_number'],
-								  'price' => $cart['shopping_cart']['form_data']['ord_total'],
-								  'created_date'=> date("Y-m-d H:i:s") );
-					$this->common_model->insertRow($data, 'tbl_mst_project_donation');
-				}
+				$result_order = $this->common_model->getRecords( 'tbl_mst_project_donation', array('order_number'), array('order_number' => $cart['shopping_cart']['form_data']['ord_order_number'] ) );
+				
+				$data['user_session'] = $this->session->userdata('user_account');
+				
+				if( empty( $result_order ) ){
+					if(!empty($this->session->userdata('project_id'))) {
+						$data = array('project_id' => $this->session->userdata('project_id'),
+									  'user_id' => $data['user_session']['user_id'],
+									  'order_number' => $cart['shopping_cart']['form_data']['ord_order_number'],
+									  'price' => $cart['shopping_cart']['form_data']['ord_total'],
+									  'created_date'=> date("Y-m-d H:i:s") );
+						$this->common_model->insertRow($data, 'tbl_mst_project_donation');
+					
+						$project_connection = $this->common_model->getRecords( 'tbl_user_project_connection_mapping', array('id'), array('user_id' => $_SESSION['user_account']['user_id'], 'project_id' => $_SESSION['project_id'] ) );
+						if( empty( $project_connection ) ){
+							$connect = array('project_id' => $_SESSION['project_id'],
+									  'user_id' =>  $_SESSION['user_account']['user_id'],
+									  'created_time'=> date("Y-m-d H:i:s") );
+									  
+							$this->common_model->insertRow($connect, 'tbl_user_project_connection_mapping');
+						}	
+					}
+				}	
+				
 				$this->common_model->insertRow($payment_data, TABLES::$PAYMENT);
 				$idata = array();
 
@@ -308,52 +331,52 @@ class Express_checkout extends CI_Controller {
 				$insert = $this->common_model->insertRow($os, TABLES::$ORDER_SUMMARY);
 			
 			
-            $order_table = "<table border='1' style='border:1px solid #000;padding:8px;border-collapse:collapse'><tr><th style='padding:5px'>Sr No</th><th style='padding:5px'>Item Name</th><th style='padding:5px'>Quantity</th><th style='padding:5px'>Price</th>";
-            $sr = 0;
-            foreach ($cartdata as $cdata) {
-                $sr++;
-                $idata['ord_det_cart_row_id'] = $cdata['rowid'];
-                $idata['ord_det_item_fk'] = $cdata['id'];
-                $idata['ord_det_item_name'] = $cdata['name'];
-                $idata['ord_det_quantity'] = $cdata['qty'];
-                $idata['ord_det_price_total'] = $cdata['price'] * $cdata['qty'];
-                $idata['ord_det_price'] = $cdata['price'];
-                $idata['ord_det_order_number_fk'] = $cart['shopping_cart']['form_data']['ord_order_number'];
-                
-                $this->common_model->insertRow($idata, TABLES::$ORDER_DETAILS);
-                $order_table .= "<tr><td style='padding:5px'>" . $sr . "</td><td style='padding:5px'>" . $cdata['name'] . "</td><td style='padding:5px'>" . $cdata['qty'] . "</td><td style='padding:5px'>" . $cdata['price'] . "</td></tr>";
-            }
-            $order_table .= "</table>";
+				$order_table = "<table border='1' style='border:1px solid #000;padding:8px;border-collapse:collapse'><tr><th style='padding:5px'>Sr No</th><th style='padding:5px'>Item Name</th><th style='padding:5px'>Quantity</th><th style='padding:5px'>Price</th>";
+				$sr = 0;
+				foreach ($cartdata as $cdata) {
+					$sr++;
+					$idata['ord_det_cart_row_id'] = $cdata['rowid'];
+					$idata['ord_det_item_fk'] = $cdata['id'];
+					$idata['ord_det_item_name'] = $cdata['name'];
+					$idata['ord_det_quantity'] = $cdata['qty'];
+					$idata['ord_det_price_total'] = $cdata['price'] * $cdata['qty'];
+					$idata['ord_det_price'] = $cdata['price'];
+					$idata['ord_det_order_number_fk'] = $cart['shopping_cart']['form_data']['ord_order_number'];
+					
+					$this->common_model->insertRow($idata, TABLES::$ORDER_DETAILS);
+					$order_table .= "<tr><td style='padding:5px'>" . $sr . "</td><td style='padding:5px'>" . $cdata['name'] . "</td><td style='padding:5px'>" . $cdata['qty'] . "</td><td style='padding:5px'>" . $cdata['price'] . "</td></tr>";
+				}
+				$order_table .= "</table>";
 
-            $data['global'] = $this->common_model->getGlobalSettings();
+				$data['global'] = $this->common_model->getGlobalSettings();
 
-            $reserved_words = array(
-                "||FULL_NAME||" => $cart['shopping_cart']['form_data']['ord_bill_name'],
-                "||ORDER_DETAILS_TABLE||" => $order_table,
-                "||SITE_TITLE||" => $data['global']['site_title']
-            );
+				$reserved_words = array(
+					"||FULL_NAME||" => $cart['shopping_cart']['form_data']['ord_bill_name'],
+					"||ORDER_DETAILS_TABLE||" => $order_table,
+					"||SITE_TITLE||" => $data['global']['site_title']
+				);
 
-            $email_content = $this->common_model->getEmailTemplateInfo('order-placed', $reserved_words);
+				$email_content = $this->common_model->getEmailTemplateInfo('order-placed', $reserved_words);
 
-            $mail = $this->common_model->sendEmail($this->input->post('email'), array("email" => $data['global']['site_email'], "name" => $data['global']['site_title']), $email_content['subject'], $email_content['content']);
+				$mail = $this->common_model->sendEmail($this->input->post('email'), array("email" => $data['global']['site_email'], "name" => $data['global']['site_title']), $email_content['subject'], $email_content['content']);
 
-            $html1 = $order_table;
-            $pdfFilePath = "output_pdf_name.pdf";
-            $this->m_pdf->pdf->mirrorMargins = 1;
+				$html1 = $order_table;
+				$pdfFilePath = "output_pdf_name.pdf";
+				$this->m_pdf->pdf->mirrorMargins = 1;
 
-            $this->m_pdf->pdf->SetHTMLHeader('<div style="text-align: right; font-weight: bold;">My document</div>', 'O');
+				$this->m_pdf->pdf->SetHTMLHeader('<div style="text-align: right; font-weight: bold;">My document</div>', 'O');
 
-            $this->m_pdf->pdf->SetHTMLHeader('<div style="border-bottom: 1px solid #000000;">My document</div>', 'E');
+				$this->m_pdf->pdf->SetHTMLHeader('<div style="border-bottom: 1px solid #000000;">My document</div>', 'E');
 
-            $this->m_pdf->pdf->SetHTMLFooter('<table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt; color: #000000; font-weight: bold; font-style: italic;"><tr><td width="33%"><span style="font-weight: bold; font-style: italic;">{DATE j-m-Y}</span></td><td width="33%" align="center" style="font-weight: bold; font-style: italic;">{PAGENO}/{nbpg}</td>
-<td width="33%" style="text-align: right; ">My document</td></tr></table>');
-            $this->m_pdf->pdf->SetHTMLFooter('<table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt; color: #000000; font-weight: bold; font-style: italic;"><tr>
-<td width="33%"><span style="font-weight: bold; font-style: italic;">My document</span></td><td width="33%" align="center" style="font-weight: bold; font-style: italic;">{PAGENO}/{nbpg}</td>
-<td width="33%" style="text-align: right; ">{DATE j-m-Y}</td></tr></table>', 'E');
-            $html = mb_convert_encoding($html1, 'UTF-8', 'UTF-8');
-            $this->m_pdf->pdf->WriteHTML($html);
-            $this->session->unset_userdata('shopping_cart');
-            $this->cart->destroy();
+				$this->m_pdf->pdf->SetHTMLFooter('<table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt; color: #000000; font-weight: bold; font-style: italic;"><tr><td width="33%"><span style="font-weight: bold; font-style: italic;">{DATE j-m-Y}</span></td><td width="33%" align="center" style="font-weight: bold; font-style: italic;">{PAGENO}/{nbpg}</td>
+	<td width="33%" style="text-align: right; ">My document</td></tr></table>');
+				$this->m_pdf->pdf->SetHTMLFooter('<table width="100%" style="vertical-align: bottom; font-family: serif; font-size: 8pt; color: #000000; font-weight: bold; font-style: italic;"><tr>
+	<td width="33%"><span style="font-weight: bold; font-style: italic;">My document</span></td><td width="33%" align="center" style="font-weight: bold; font-style: italic;">{PAGENO}/{nbpg}</td>
+	<td width="33%" style="text-align: right; ">{DATE j-m-Y}</td></tr></table>', 'E');
+				$html = mb_convert_encoding($html1, 'UTF-8', 'UTF-8');
+				$this->m_pdf->pdf->WriteHTML($html);
+				$this->session->unset_userdata('shopping_cart');
+				$this->cart->destroy();
 
 			}
             /**
